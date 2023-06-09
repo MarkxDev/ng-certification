@@ -7,10 +7,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainComponent } from './componets/main/main.component';
 import { ForecastComponent } from './componets/forecast/forecast.component';
+import { ErrorComponent } from './componets/error/error.component';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, AppRoutingModule, HttpClientModule],
-  declarations: [ AppComponent, MainComponent, ForecastComponent ],
+  declarations: [ AppComponent, MainComponent, ForecastComponent, ErrorComponent ],
   bootstrap:    [ AppComponent ],
   // providers: [ AppService ]
 })

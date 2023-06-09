@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppService } from '../../services/app.service';
+import { Router } from '@angular/router';
 
 const LOCAL_STORAGE_KEY = "zipcodes";
 
@@ -17,7 +18,7 @@ export class MainComponent implements OnInit {
 
   items: any[] = [];
 
-  constructor(private appService: AppService, private fb: FormBuilder ) {}
+  constructor(private appService: AppService, private fb: FormBuilder, protected router: Router ) {}
 
   ngOnInit() {
     this.buildForm();
@@ -28,7 +29,8 @@ export class MainComponent implements OnInit {
       this.appService.getWeather(Number(element)).subscribe(
         (data) => {
           this.onSuccessResponse(data);
-        }
+        },
+        (error) => { this.onErrorResponse(error) }
       );
     });
 
@@ -47,7 +49,8 @@ export class MainComponent implements OnInit {
           localStorage.setItem(LOCAL_STORAGE_KEY, toStore);
 
           this.zipcodeForm.reset();
-        }
+        },
+        (error) => { this.onErrorResponse(error) }
       );
 
     } else {
@@ -82,6 +85,11 @@ export class MainComponent implements OnInit {
     this.items.push(itemView);
   }
 
+  onErrorResponse(error: any) {
+    console.error('ERROR: ', error)
+    this.router.navigate(['404']);
+  }
+  
   private buildForm() {
     this.zipcodeForm = this.fb.group({
       zipcode: ["", Validators.required]
