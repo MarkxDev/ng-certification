@@ -1,0 +1,17 @@
+<div class="container-fluid">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">5-day forecast for Rancho Cordova</h3>
+      </div>
+      <ul class="list-group">
+        <li *ngFor="let item of this.forecast" class="list-group-item">
+          {{item.date}}:
+          {{item.condition}}
+          - Min: {{item.minTemperatire}}
+          - Max: {{item.maxTemperatire}}
+          <img class="icon" [src]="getConditionImgURL(item)">
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-success" tabindex="0" id="mainPageBtn" (click)="goBack()">&lt; Back to main page</button>
+  </div>

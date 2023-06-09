@@ -6,10 +6,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainComponent } from './componets/main/main.component';
+import { ForecastComponent } from './componets/forecast/forecast.component';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, ReactiveFormsModule, AppRoutingModule, HttpClientModule],
-  declarations: [ AppComponent, MainComponent ],
+  declarations: [ AppComponent, MainComponent, ForecastComponent ],
   bootstrap:    [ AppComponent ],
   // providers: [ AppService ]
 })

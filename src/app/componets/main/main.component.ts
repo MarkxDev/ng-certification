@@ -3,14 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppService } from '../../services/app.service';
 
 const LOCAL_STORAGE_KEY = "zipcodes";
-const ICON_URL = "https://www.angulartraining.com/images/weather/";
 
-export enum ContitionIcon {
-  CLOUDS = 'clouds.png',	
-  RAIN = 'rain.png',	
-  SNOW = 'snow.png',	
-  SUN = 'sun.png',
-}
 
 @Component({
   selector: 'app-main',
@@ -43,7 +36,6 @@ export class MainComponent implements OnInit {
 
   onSubmit() {
     if (this.zipcodeForm.valid) {
-      console.log("Submitting form: ", this.zipcodeForm.value);
      
       this.appService.getWeather(Number(this.zipcodeForm.value.zipcode)).subscribe(
         (data) => {
@@ -53,7 +45,6 @@ export class MainComponent implements OnInit {
           const storaged = localStorage.getItem(LOCAL_STORAGE_KEY);
           const toStore = storaged ? `${storaged},${this.zipcodeForm.value.zipcode}` : `${this.zipcodeForm.value.zipcode}` ;
           localStorage.setItem(LOCAL_STORAGE_KEY, toStore);
-          console.log("toStore: ", toStore);
 
           this.zipcodeForm.reset();
         }
@@ -74,8 +65,6 @@ export class MainComponent implements OnInit {
       let storeArr = storaged?.split(",");
       storeArr?.splice(index, 1);
 
-      console.log('storeArr: ', storeArr);
-      console.log('String(storeArr??[]): ', String(storeArr??[]));
       if(storeArr && storeArr.length > 0){
         localStorage.setItem(LOCAL_STORAGE_KEY, String(storeArr));
       } else {
@@ -89,20 +78,7 @@ export class MainComponent implements OnInit {
 
   onSuccessResponse(data: any) {
     const condition = data.body.condition;
-    let imageJpg = ContitionIcon.SUN;
-
-    switch(condition){
-      case 'Sunny': 
-        imageJpg = ContitionIcon.SUN;
-        break;
-      case 'Clouds':
-        imageJpg = ContitionIcon.CLOUDS;
-        break
-      default:
-        break
-    }
-
-    const itemView = { ...data.body, imageURL: ICON_URL+imageJpg }
+    const itemView = { ...data.body, imageURL: this.appService.conditionToImgURL(condition) }
     this.items.push(itemView);
   }
 
